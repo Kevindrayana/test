@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 import { PhoneService } from './phone.service';
 
 @Controller('phone')
@@ -10,6 +10,12 @@ export class PhoneController {
     @Query('countryCode') countryCode: string,
     @Query('phoneNumber') phoneNumber: string,
   ) {
-    return this.phoneService.getPhoneData(countryCode, phoneNumber);
+    try {
+      return this.phoneService.getPhoneData(countryCode, phoneNumber);
+    } catch (error) {
+      return new BadRequestException(
+        'country code or phone number is not submitted',
+      );
+    }
   }
 }

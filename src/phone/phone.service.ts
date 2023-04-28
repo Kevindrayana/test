@@ -1,16 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import fetch from 'node-fetch';
-
-//TODO add middleware to check if data in database
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class PhoneService {
-  getPhoneData(countryCode: string, phoneNumber: string) {
+  constructor(@InjectModel('Phone') private readonly phoneModel) {}
+
+  async getPhoneData(countryCode: string, phoneNumber: string) {
     if (!countryCode || !phoneNumber) {
-      throw Error;
+      throw new Error();
     }
 
-    return this.numverify(countryCode + phoneNumber);
+    const phone = await this.phoneModel
+      .find({ phone: countryCode + phoneNumber })
+      .select('phone')
+      .select('country_name')
+      .select('location')
+      .select('carrier')
+      .select('line_type');
+
+    if (phone.length) {
+      return phone;
+    } else {
+      const res = await this.numverify(countryCode + phoneNumber);
+
+      await this.phoneModel({
+        phone: countryCode + phoneNumber,
+        ...res,
+      }).save();
+
+      return await this.phoneModel
+        .find({ phone: countryCode + phoneNumber })
+        .select('phone')
+        .select('country_name')
+        .select('location')
+        .select('carrier')
+        .select('line_type');
+    }
   }
 
   async numverify(number: string) {

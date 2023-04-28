@@ -71,3 +71,24 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## How this software works
+
+this is a backend API for phone number verification that utilises numverify (https://numverify.com/). Send a GET request with query parameters of country code and phone number to the server and it will return the country location, carrier, and line type of the corresponding phone number in JSON.
+
+## Example GET request format
+
+http://localhost:3000/phone?countryCode=852&phoneNumber=94135858
+
+## Example JSON
+
+```
+{
+  "\_id": "644bd95c92dec2058c602779",
+  "phone": "85294135858",
+  "country_name": "Hong Kong, China",
+  "location": "",
+  "carrier": "Hutchison Telephone Company Ltd (3 Hong Kong)",
+  "line_type": "mobile"
+}
+```

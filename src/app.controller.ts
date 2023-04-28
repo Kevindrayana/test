@@ -3,7 +3,6 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  //for routes and HTTP verbs
   constructor(private readonly appService: AppService) {}
 
   @Get()
