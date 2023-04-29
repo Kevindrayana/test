@@ -82,8 +82,8 @@ This is a backend API for phone number verification that utilizes [Numverify](ht
 
 To retrieve phone number information using a GET request, send a request to the `/phone` endpoint with the following query parameters:
 
-- `countryCode`: The country code of the phone number (eg. 852).
-- `phoneNumber`: The phone number to verify, without any formatting or special characters.
+- `countryCode`: The country code of the phone number in string format (eg. "1").
+- `phoneNumber`: The phone number to verify, without any formatting or special characters in string format (eg. "2025886500").
 
 The API will return the phone number information in JSON format, including the country location, carrier, and line type of the corresponding phone number.
 
@@ -96,7 +96,7 @@ To retrieve phone number information using a POST request, send a request to the
   "countryCode": "1",
   "phoneNumber": "2025886500"
 }
-
-Replace the example values with the two-letter country code and phone number that you want to verify.
+```
+Replace the example values with the country code and phone number that you want to verify.
 
 The API will return the phone number information in JSON format, including the country location, carrier, and line type of the corresponding phone number.
