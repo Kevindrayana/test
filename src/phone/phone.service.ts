@@ -1,48 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import fetch from 'node-fetch';
 import { InjectModel } from '@nestjs/mongoose';
-
+import config from 'src/config';
+import { Model } from 'mongoose';
+import { Phone } from './interfaces/phone.interface';
 @Injectable()
 export class PhoneService {
-  constructor(@InjectModel('Phone') private readonly phoneModel) {}
+  constructor(
+    @InjectModel('Phone') private readonly phoneModel: Model<Phone>,
+  ) {}
 
   async getPhoneData(countryCode: string, phoneNumber: string) {
     if (!countryCode || !phoneNumber) {
-      throw new Error();
+      throw new BadRequestException(
+        'country code or phone number is not submitted',
+      );
     }
 
     const phone = await this.phoneModel
-      .find({ phone: countryCode + phoneNumber })
-      .select('phone')
-      .select('country_name')
-      .select('location')
-      .select('carrier')
-      .select('line_type');
+      .findOne({ phone: countryCode + phoneNumber })
+      .select('-__v');
 
-    if (phone.length) {
+    if (phone) {
       return phone;
-    } else {
-      const res = await this.numverify(countryCode + phoneNumber);
-
-      await this.phoneModel({
-        phone: countryCode + phoneNumber,
-        ...res,
-      }).save();
-
-      return await this.phoneModel
-        .find({ phone: countryCode + phoneNumber })
-        .select('phone')
-        .select('country_name')
-        .select('location')
-        .select('carrier')
-        .select('line_type');
     }
+
+    const res = await this.numverify(countryCode + phoneNumber);
+
+    const newPhone = new this.phoneModel({
+      phone: countryCode + phoneNumber,
+      ...res,
+    });
+
+    await newPhone.save();
+
+    return newPhone.toObject();
   }
 
   async numverify(number: string) {
     const myHeaders = new fetch.Headers();
-    const apiKey = 'nIBe1yIXwaow8Qy9IYRvw6wscVlOUJAX';
-    myHeaders.append('apikey', apiKey);
+    myHeaders.append('apikey', config.apiKey);
 
     const requestOptions: RequestInit = {
       method: 'GET',

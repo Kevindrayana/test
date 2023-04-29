@@ -72,23 +72,31 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
-## How this software works
+# Phone Verification API
 
-this is a backend API for phone number verification that utilises numverify (https://numverify.com/). Send a GET request with query parameters of country code and phone number to the server and it will return the country location, carrier, and line type of the corresponding phone number in JSON.
+This is a backend API for phone number verification that utilizes [Numverify](https://numverify.com/), a service that provides phone number information such as the country location, carrier, and line type.
 
-## Example GET request format
+## Usage
 
-http://localhost:3000/phone?countryCode=852&phoneNumber=94135858
+### GET /phone
 
-## Example JSON
+To retrieve phone number information using a GET request, send a request to the `/phone` endpoint with the following query parameters:
 
-```
+- `countryCode`: The country code of the phone number (eg. 852).
+- `phoneNumber`: The phone number to verify, without any formatting or special characters.
+
+The API will return the phone number information in JSON format, including the country location, carrier, and line type of the corresponding phone number.
+
+### POST /phone
+
+To retrieve phone number information using a POST request, send a request to the `/phone` endpoint with the following request body:
+
+```json
 {
-  "\_id": "644bd95c92dec2058c602779",
-  "phone": "85294135858",
-  "country_name": "Hong Kong, China",
-  "location": "",
-  "carrier": "Hutchison Telephone Company Ltd (3 Hong Kong)",
-  "line_type": "mobile"
+  "countryCode": "1",
+  "phoneNumber": "2025886500"
 }
-```
+
+Replace the example values with the two-letter country code and phone number that you want to verify.
+
+The API will return the phone number information in JSON format, including the country location, carrier, and line type of the corresponding phone number.

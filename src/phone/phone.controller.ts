@@ -1,5 +1,15 @@
-import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { PhoneService } from './phone.service';
+import { findPhoneDatasDto } from './dtos/findPhoneDatas.dto';
 
 @Controller('phone')
 export class PhoneController {
@@ -13,9 +23,18 @@ export class PhoneController {
     try {
       return this.phoneService.getPhoneData(countryCode, phoneNumber);
     } catch (error) {
-      return new BadRequestException(
+      throw new BadRequestException(
         'country code or phone number is not submitted',
       );
     }
+  }
+
+  @Post()
+  @UsePipes(new ValidationPipe())
+  findPhoneDatas(@Body() phoneData: findPhoneDatasDto) {
+    return this.phoneService.getPhoneData(
+      phoneData.countryCode,
+      phoneData.phoneNumber,
+    );
   }
 }
