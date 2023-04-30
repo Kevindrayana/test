@@ -100,3 +100,26 @@ To retrieve phone number information using a POST request, send a request to the
 Replace the example values with the country code and phone number that you want to verify.
 
 The API will return the phone number information in JSON format, including the country location, carrier, and line type of the corresponding phone number.
+
+### Response Format
+
+The API returns a JSON object with the following properties:
+
+- `_id`: A string representing a unique identifier for the phone number.
+- `phone`: A string representing the phone number in the format `[country code][phone number]`.
+- `country_name`: A string representing the name of the country associated with the phone number.
+- `location`: A string representing the city or town associated with the phone number.
+- `carrier`: A string representing the name of the carrier associated with the phone number.
+- `line_type`: A string representing the type of line associated with the phone number. Possible values are "mobile", "landline", or "voip".
+
+#### Example Response
+```json
+{
+    "_id": "644bd6d9d9fd85c0a9f8b5e5",
+    "phone": "14158586273",
+    "country_name": "United States of America",
+    "location": "Novato",
+    "carrier": "AT&T Mobility LLC",
+    "line_type": "mobile"
+}
+```
