@@ -123,3 +123,11 @@ The API returns a JSON object with the following properties:
     "line_type": "mobile"
 }
 ```
+
+## MongoDB
+
+This program uses MongoDB as the database to store and retrieve data. To use MongoDB with this program, you'll need to do the following:
+
+1. Install MongoDB: You'll need to have MongoDB installed on your local machine or server. You can download MongoDB from the official website: https://www.mongodb.com/try/download/community
+
+2. Configure your MongoDB connection string: In the `config.ts` file, update the `mongoDBConnectionString` value to your own MongoDB connection string.

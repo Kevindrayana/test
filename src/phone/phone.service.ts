@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import fetch from 'node-fetch';
 import { InjectModel } from '@nestjs/mongoose';
-import config from 'src/config';
+import config from 'config';
 import { Model } from 'mongoose';
 import { Phone } from './interfaces/phone.interface';
 @Injectable()
